@@ -1,3 +1,5 @@
+face-recognition==1.3.0
+face-recognition-models==0.3.0
 Flask==2.0.1
 gluoncv==0.10.4.post1
 ipywidgets==7.6.3

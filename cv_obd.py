@@ -69,6 +69,8 @@ def CenterNet(pic):
 def MOB_NET (video):
     net = gcv.model_zoo.get_model('ssd_512_mobilenet1.0_voc', pretrained=True)
     cap = cv2.VideoCapture(video)
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (640,480))
     axes = None
     NUM_FRAMES = 200 # you can change this
     for i in range(NUM_FRAMES):
@@ -84,17 +86,8 @@ def MOB_NET (video):
     cv2.destroyAllWindows()
     cv2.waitKey(2)
 
-    if W is None or H is None:
-        (H, W) = frame.shape[:2]
+    #cv2.imshow("video", f)
+    out.write(frame)
 
-    # if we are supposed to be writing a video to disk, initialize
-    # the writer
-    writer=None
-    output="/static/uploads/obd.mp4"
-    if output is not None and writer is None:
-        fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-        writer = cv2.VideoWriter(output, fourcc, 30,
-            (W, H), True)
-        print(output)
     
-MOB_NET('static/v_Basketball_g01_c01.mp4')
+#MOB_NET('static/v_Basketball_g01_c01.mp4')

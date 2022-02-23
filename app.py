@@ -222,7 +222,7 @@ def cv_emd_test_home():
 
 @app.route('/nlp/summarization/abs')
 def nlp_summ_home():
-    return render_template('nlp_summ_test.html')
+    return render_template('nlp_summ_designed.html')
 # @app.route('/cv/people_counter1')
 # def cv_people_counter1():
 #    return render_template('people_counter1cv.html')
@@ -842,11 +842,18 @@ def predict_for_face():
                 existing_names=os.listdir('Images')
                 #print(existing_names)
                 print(sample_path)
-                if not os.path.exists(sample_path):
-                    os.makedirs(sample_path, exist_ok=True)
-                    flash("Files successfully uploaded.")
-                path = app.config["UPLOAD_FOLDER"]
-                Samples = file.save(os.path.join(sample_path, file.filename))
+                try:
+                    os.makedirs(sample_path)
+                    flash("Files successfuly uploaded under the specified name.")
+                    for file in files:
+                        path = app.config["UPLOAD_FOLDER"]
+                        file.save(os.path.join(sample_path, file.filename))
+                except FileExistsError:
+                    flash("Collection of the given name already exists.")
+                    # directory already exists
+                    pass
+                """ if not os.path.exists(sample_path):
+                    os.makedirs(sample_path, exist_ok=True) """
                 """ else:
                     flash("Collection of the given name already exists.") """
                 #file.save(os.path.join(app.config['Images'], file.filename))
@@ -1066,7 +1073,7 @@ def cv_emd_cam1():
 def nlp_summ_2():
     if request.method == 'POST':
         textvalue = request.form.get("textarea", None)
-        return render_template('nlp_summ_test.html', res=nlp_summarization.Abs_Sum(textvalue))
+        return render_template('nlp_summ_designed.html', res=nlp_summarization.Abs_Sum(textvalue))
 
 
 if __name__ == "__main__":
